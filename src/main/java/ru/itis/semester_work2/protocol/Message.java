@@ -1,0 +1,20 @@
+package ru.itis.semester_work2.protocol;
+
+public class Message {
+    private MessageType type;
+
+    public Message() {
+    }
+
+    public Message(MessageType type) {
+        this.type = type;
+    }
+
+    public MessageType getType() {
+        return type;
+    }
+
+    public void setType(MessageType type) {
+        this.type = type;
+    }
+}
