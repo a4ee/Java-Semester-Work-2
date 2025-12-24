@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<?import javafx.scene.layout.Pane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ru.itis.semester_work2.ui.GameController"
+            style="-fx-background-color: #0a0a15;">
+
+    <top>
+        <HBox spacing="50" alignment="CENTER" style="-fx-background-color: #1a1a2e; -fx-padding: 10;">
+            <Label fx:id="player1Label" text="Игрок 1: HP 3"
+                   style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <Label fx:id="player2Label" text="Игрок 2: HP 3"
+                   style="-fx-text-fill: #e74c3c; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
+
+
+    <center>
+        <StackPane fx:id="gamePane">
+            <Canvas fx:id="gameCanvas" width="800" height="600"/>
+            <Pane fx:id="gameContainer" prefWidth="800" prefHeight="600">
+            </Pane>
+        </StackPane>
+    </center>
+
+    <bottom>
+        <HBox spacing="30" alignment="CENTER" style="-fx-background-color: #1a1a2e; -fx-padding: 10;">
+            <Label text="W/S - движение | A/D - поворот | SPACE - выстрел | E - мина"
+                   style="-fx-text-fill: #888; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+
+
+
+</BorderPane>
+

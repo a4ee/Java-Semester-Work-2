@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" spacing="20" style="-fx-background-color: #0b2545;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itis.semester_work2.ui.MenuController">
+    <padding>
+        <Insets bottom="50" left="50" right="50" top="50" />
+    </padding>
+
+    <Label style="-fx-text-fill: #eee;" text="WARSHIP">
+        <font>
+            <Font name="System Bold" size="32" />
+        </font>
+    </Label>
+
+    <VBox alignment="CENTER" spacing="10">
+        <Label style="-fx-text-fill: #ccc;" text="Имя игрока:" />
+        <TextField fx:id="playerNameField" maxWidth="200" promptText="Введите имя" />
+    </VBox>
+
+    <VBox alignment="CENTER" spacing="10">
+        <Label style="-fx-text-fill: #ccc;" text="Адрес сервера:" />
+        <TextField fx:id="hostField" maxWidth="200" text="localhost" />
+    </VBox>
+
+    <VBox alignment="CENTER" spacing="10">
+        <Label style="-fx-text-fill: #ccc;" text="Порт:" />
+        <TextField fx:id="portField" maxWidth="200" text="8080" />
+    </VBox>
+
+    <Button onAction="#onConnect" prefHeight="40" prefWidth="200" style="-fx-background-color: #134074; -fx-text-fill: white; -fx-font-size: 14px;" text="Подключиться" />
+
+    <Label fx:id="statusLabel" style="-fx-text-fill: #e94560;" text="" />
+</VBox>

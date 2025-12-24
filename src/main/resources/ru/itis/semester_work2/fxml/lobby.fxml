@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="30" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ru.itis.semester_work2.ui.LobbyController"
+      style="-fx-background-color: #1a1a2e;">
+    <padding>
+        <Insets bottom="50" left="50" right="50" top="50"/>
+    </padding>
+
+    <Label text="ОЖИДАНИЕ ИГРОКА" style="-fx-text-fill: #eee;">
+        <font>
+            <Font name="System Bold" size="28"/>
+        </font>
+    </Label>
+
+    <ProgressIndicator prefWidth="60" prefHeight="60"/>
+
+    <Label fx:id="statusLabel" text="Подключено к серверу. Ожидание второго игрока..."
+           style="-fx-text-fill: #ccc; -fx-font-size: 14px;"/>
+</VBox>
+

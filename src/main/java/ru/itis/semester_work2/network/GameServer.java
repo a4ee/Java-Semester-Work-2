@@ -26,10 +26,12 @@ public class GameServer {
 
         ServerEventHandler eventHandler = new ServerEventHandler(selector);
 
+        running = true;
+        System.out.println("Сервер запущен на порту " + port + ". Ожидание игроков...");
+
         while (running) {
             eventHandler.handleEvents();
         }
-
 
     }
 

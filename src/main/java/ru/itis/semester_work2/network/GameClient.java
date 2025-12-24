@@ -14,7 +14,8 @@ import java.util.Iterator;
 public class GameClient {
     private SocketChannel socketChannel;
     private Selector selector;
-    private final ByteBuffer buffer = ByteBuffer.allocate(4096);
+    private final ByteBuffer buffer = ByteBuffer.allocate(8192);
+    private final StringBuilder messageBuffer = new StringBuilder();
     private boolean connected = false;
     private ClientEventListener listener;
 
@@ -29,15 +30,14 @@ public class GameClient {
     }
 
     public void update() throws IOException {
-        if (selector.select(16) > 0) {
+        int ready = selector.select(1);
+        if (ready > 0) {
             Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
 
             while (iterator.hasNext()) {
                 SelectionKey key = iterator.next();
                 iterator.remove();
-
                 if (!key.isValid()) continue;
-
                 if (key.isConnectable()) {
                     handleConnect(key);
                 } else if (key.isReadable()) {
@@ -72,15 +72,30 @@ public class GameClient {
         }
 
         buffer.flip();
-        String json = StandardCharsets.UTF_8.decode(buffer).toString().trim();
+        String received = StandardCharsets.UTF_8.decode(buffer).toString();
+        messageBuffer.append(received);
 
-        if (json.isEmpty()) return;
+        String data = messageBuffer.toString();
+        int lastNewline = data.lastIndexOf('\n');
 
-        String[] messages = json.split("\n");
+        if (lastNewline == -1) {
+            return;
+        }
+
+        String complete = data.substring(0, lastNewline);
+        messageBuffer.setLength(0);
+        messageBuffer.append(data.substring(lastNewline + 1));
+
+        String[] messages = complete.split("\n");
         for (String msg : messages) {
+            msg = msg.trim();
             if (!msg.isEmpty()) {
-                Message message = MessageHandler.deserialize(msg);
-                handleMessage(message);
+                try {
+                    Message message = MessageHandler.deserialize(msg);
+                    handleMessage(message);
+                } catch (Exception e) {
+                    System.err.println("Ошибка парсинга: " + e.getMessage());
+                }
             }
         }
     }
@@ -95,12 +110,19 @@ public class GameClient {
         }
     }
 
-    public void send(Message message) throws IOException {
+    public void send(Message message) {
         if (!connected || socketChannel == null) return;
 
-        String json = MessageHandler.serialize(message) + "\n";
-        ByteBuffer buf = ByteBuffer.wrap(json.getBytes(StandardCharsets.UTF_8));
-        socketChannel.write(buf);
+        try {
+            String json = MessageHandler.serialize(message) + "\n";
+            ByteBuffer buf = ByteBuffer.wrap(json.getBytes(StandardCharsets.UTF_8));
+            while (buf.hasRemaining()) {
+                socketChannel.write(buf);
+            }
+        } catch (IOException e) {
+            System.err.println("Ошибка отправки: " + e.getMessage());
+            connected = false;
+        }
     }
 
     public void disconnect() throws IOException {
